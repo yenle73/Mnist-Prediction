@@ -26,7 +26,7 @@ if canvas_result.image_data is not None:
     st.image(rescaled) 
 
     if st.button('Predict'):
-        image = img.resize((8*8,1))
+        image = rescaled.resize((8*8,1))
         feature_vector = np.array(image)
         label = str((model.predict(feature_vector))[0])
         st.write(f'result: {np.argmax(val[0])}')
