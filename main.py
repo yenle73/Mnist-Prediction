@@ -4,8 +4,8 @@ import pickle as pkl
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 
-# input_md = open('lrc_vinames.pkl', 'rb')
-# model = pkl.load(input_md)
+input_md = open('lrc_mnist.pkl', 'rb')
+model = pkl.load(input_md)
 
 mode = st.checkbox("Draw or Delete?", True)
 canvas_result = st_canvas(
@@ -23,5 +23,8 @@ if canvas_result.image_data is not None:
     rescaled = cv2.resize(img, (SIZE, SIZE), interpolation=cv2.INTER_NEAREST)
     st.write('Model Input')
     st.image(rescaled)
+
+    #rs = model.predict(rescaled)
+    #st.write(rs)
 
     
