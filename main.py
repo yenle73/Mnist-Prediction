@@ -1,15 +1,15 @@
+from bokeh.plotting import figure
+from bokeh.models import FreehandDrawTool
+
 import streamlit as st
-import pickle as pkl
-from PIL import Image
 
-st.title('MNIST Prediction')
 
-def load_image(image_file):
-	img = Image.open(image_file)
-	return img
+p = figure(x_range=(0, 10), y_range=(0, 10), width=400, height=400)
 
-image_file = st.file_uploader("Upload Images", type=["png","jpg","jpeg"])
+renderer = p.multi_line([[1, 1]], [[1, 1]], line_width=1, alpha=0.4, color='red')
 
-if image_file is not None:
-  image = load_image(image_file)
-  st.image(image)
+draw_tool = FreehandDrawTool(renderers=[renderer], num_objects=99999)
+p.add_tools(draw_tool)
+p.toolbar.active_drag = draw_tool
+
+st.bokeh_chart(p)
