@@ -1,34 +1,24 @@
-import numpy as np
-import cv2
-import pickle as pkl
 import streamlit as st
-from streamlit_drawable_canvas import st_canvas
+from PIL import Image
+import pickle as pkl
+import numpy as np
 
-input_md = open('lrc_mnist.pkl', 'rb')
-model = pkl.load(input_md)
+st.title('Handwritten Digit Recognition')
 
-SIZE = 28
-mode = st.checkbox("Draw or Delete?", True)
-canvas_result = st_canvas(
-    fill_color='#000000',
-    stroke_width=20,
-    stroke_color='#FFFFFF',
-    background_color='#000000',
-    width=SIZE,
-    height=SIZE,
-    drawing_mode="freedraw" if mode else "transform",
-    key='canvas')
+input = open('lrc_mnist.pkl', 'rb')
+model = pkl.load(input)
 
-if canvas_result.image_data is not None:
-    img = cv2.resize(canvas_result.image_data.astype('uint8'), (8*8, 1))
-    # rescaled = cv2.resize(img, (SIZE, SIZE), interpolation=cv2.INTER_NEAREST)
-    st.write('Model Input')
-    st.image(rescaled) 
+st.header('Upload an image')
+image = st.file_uploader('Choose an image', type=(['png', 'jpg', 'jpeg']))
 
-    if st.button('Predict'):
-        feature_vector = np.array(img)
-        label = str((model.predict(feature_vector))[0])
-        st.write(f'result: {np.argmax(val[0])}')
-        st.bar_chart(val[0])
+if image is not None:
+  image = Image.open(image)
+  st.image(image, caption='Test image')
 
-    
+  if st.button('Predict'):
+    image = image.resize((8*8, 1))
+    vector = np.array(image)
+    label = str((model.predict(vector))[0])
+
+    st.header('Result')
+    st.text(label)
