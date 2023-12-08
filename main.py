@@ -4,7 +4,7 @@ from tensorflow.keras.models import load_model
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 
-mode = st.checkbox("Draw (or Delete)?", True)
+mode = st.checkbox("Draw or Delete?", True)
 canvas_result = st_canvas(
     fill_color='#000000',
     stroke_width=20,
