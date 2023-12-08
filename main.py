@@ -20,14 +20,13 @@ canvas_result = st_canvas(
     key='canvas')
 
 if canvas_result.image_data is not None:
-    img = cv2.resize(canvas_result.image_data.astype('uint8'), (28, 28))
-    rescaled = cv2.resize(img, (SIZE, SIZE), interpolation=cv2.INTER_NEAREST)
+    img = cv2.resize(canvas_result.image_data.astype('uint8'), (8*8, 1))
+    # rescaled = cv2.resize(img, (SIZE, SIZE), interpolation=cv2.INTER_NEAREST)
     st.write('Model Input')
     st.image(rescaled) 
 
     if st.button('Predict'):
-        image = rescaled.resize((8*8,1))
-        feature_vector = np.array(image)
+        feature_vector = np.array(img)
         label = str((model.predict(feature_vector))[0])
         st.write(f'result: {np.argmax(val[0])}')
         st.bar_chart(val[0])
