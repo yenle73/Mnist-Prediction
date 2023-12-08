@@ -25,7 +25,7 @@ if canvas_result.image_data is not None:
     st.write('Model Input')
     st.image(rescaled)
 
-    rescaled = rescaled.reshape((SIZE * SIZE,))
+    rescaled = rescaled.flatten()
 
     if st.button('Predict'):
         rs = model.predict(rescaled)
