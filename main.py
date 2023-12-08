@@ -7,7 +7,7 @@ from streamlit_drawable_canvas import st_canvas
 input_md = open('lrc_mnist.pkl', 'rb')
 model = pkl.load(input_md)
 
-SIZE = 192
+SIZE = 28
 mode = st.checkbox("Draw or Delete?", True)
 canvas_result = st_canvas(
     fill_color='#000000',
