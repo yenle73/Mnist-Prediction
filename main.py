@@ -28,7 +28,7 @@ if canvas_result.image_data is not None:
     if st.button('Predict'):
         image = img.resize((8*8,1))
         feature_vector = np.array(image)
-        label = str(model.predict(feature_vector))[0])
+        label = str((model.predict(feature_vector))[0])
         st.write(f'result: {np.argmax(val[0])}')
         st.bar_chart(val[0])
 
