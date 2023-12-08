@@ -1,15 +1,22 @@
-from bokeh.plotting import figure
-from bokeh.models import FreehandDrawTool
-
+import numpy as np
+import cv2
+from tensorflow.keras.models import load_model
 import streamlit as st
+from streamlit_drawable_canvas import st_canvas
 
+mode = st.checkbox("Draw (or Delete)?", True)
+canvas_result = st_canvas(
+    fill_color='#000000',
+    stroke_width=20,
+    stroke_color='#FFFFFF',
+    background_color='#000000',
+    width=SIZE,
+    height=SIZE,
+    drawing_mode="freedraw" if mode else "transform",
+    key='canvas')
 
-p = figure(x_range=(0, 10), y_range=(0, 10), width=400, height=400)
-
-renderer = p.multi_line([[1, 1]], [[1, 1]], line_width=1, alpha=0.4, color='red')
-
-draw_tool = FreehandDrawTool(renderers=[renderer], num_objects=99999)
-p.add_tools(draw_tool)
-p.toolbar.active_drag = draw_tool
-
-st.bokeh_chart(p)
+if canvas_result.image_data is not None:
+    img = cv2.resize(canvas_result.image_data.astype('uint8'), (28, 28))
+    rescaled = cv2.resize(img, (SIZE, SIZE), interpolation=cv2.INTER_NEAREST)
+    st.write('Model Input')
+    st.image(rescaled)
