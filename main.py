@@ -23,12 +23,12 @@ if canvas_result.image_data is not None:
     img = cv2.resize(canvas_result.image_data.astype('uint8'), (28, 28))
     rescaled = cv2.resize(img, (SIZE, SIZE), interpolation=cv2.INTER_NEAREST)
     st.write('Model Input')
-    st.image(rescaled)
-
-    rescaled = rescaled.reshape(-1, 1) 
+    st.image(rescaled) 
 
     if st.button('Predict'):
-        rs = model.predict(rescaled)
-        st.write(rs)
+        test_x = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        val = model.predict(test_x.reshape(1, 28, 28))
+        st.write(f'result: {np.argmax(val[0])}')
+        st.bar_chart(val[0])
 
     
